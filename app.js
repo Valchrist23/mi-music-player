@@ -372,14 +372,10 @@ function parseM3U(text) {
         if (!line) continue;
 
         /*
-         *       #EXTINF:-1,Artist - Song
+         * #EXTINF:-1 tvg-logo="https://ejemplo.com/album.jpg",AC/DC - Back in Black
          */
 
-        if (
-            line.startsWith(
-                "#EXTINF:"
-            )
-        ) {
+        if (line.startsWith("#EXTINF:")) {
 
             const comma =
             line.indexOf(",");
@@ -390,32 +386,38 @@ function parseM3U(text) {
 
                 info =
                 line
-                .substring(
-                    comma + 1
-                )
+                .substring(comma + 1)
                 .trim();
 
             }
 
+            // Obtener tvg-logo
+            const logoMatch =
+            line.match(
+                /tvg-logo=["']([^"']+)["']/i
+            );
+
+            const logo =
+            logoMatch
+            ? logoMatch[1]
+            : "";
+
             metadata =
             parseMetadata(info);
+
+            metadata.logo = logo;
 
         }
 
         /*
-         *       URL
+         * URL de audio
          */
 
         else if (
             !line.startsWith("#") &&
             (
-                line.startsWith(
-                    "http://"
-                )
-                ||
-                line.startsWith(
-                    "https://"
-                )
+                line.startsWith("http://") ||
+                line.startsWith("https://")
             )
         ) {
 
@@ -428,15 +430,18 @@ function parseM3U(text) {
                 song.title ||
                 getFilename(line),
 
-                        artist:
-                        song.artist ||
-                        "Artista desconocido",
+                artist:
+                song.artist ||
+                "Artista desconocido",
 
-                        album:
-                        song.album || "",
+                album:
+                song.album || "",
 
-                        url:
-                        line
+                logo:
+                song.logo || "",
+
+                url:
+                line
 
             });
 
