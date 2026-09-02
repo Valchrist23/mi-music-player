@@ -595,32 +595,32 @@ function renderSongs() {
                 "div"
             );
 
-            main.className =
-            "song-main";
+           main.className = "song-main";
 
-                const cover =
-                document.createElement(
-                    "div"
-                );
+const cover = document.createElement("div");
+cover.className = "song-cover";
 
-                cover.className =
-                "song-cover";
+if (song.logo) {
+    const img = document.createElement("img");
+    img.src = song.logo;
+    img.alt = song.title || "Portada";
+    img.loading = "lazy";
 
-                    cover.textContent =
-                    "♫";
+    img.onerror = () => {
+        img.remove();
+        cover.textContent = "♫";
+    };
 
-                const info =
-                document.createElement(
-                    "div"
-                );
+    cover.appendChild(img);
+} else {
+    cover.textContent = "♫";
+}
 
-                const title =
-                document.createElement(
-                    "div"
-                );
+const info = document.createElement("div");
 
-                title.className =
-                "song-title";
+const title = document.createElement("div");
+
+title.className = "song-title";
 
                     title.textContent =
                     song.title;
