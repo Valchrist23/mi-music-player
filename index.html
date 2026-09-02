@@ -1,0 +1,303 @@
+<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Música</title>
+
+<link rel="stylesheet" href="style.css">
+</head> <body> <header class="topbar">
+<div class="logo">
+    <span>♫</span>
+    <strong>Mi Música</strong>
+</div>
+
+<div class="search-container">
+    <input
+        type="search"
+        id="searchInput"
+        placeholder="Buscar canciones, artistas o álbumes..."
+        autocomplete="off"
+    >
+</div>
+
+<button
+    id="openListButton"
+    class="load-button">
+    ☁️ Abrir M3U
+</button>
+</header> <main>
+<section
+    class="welcome"
+    id="welcome">
+
+    <div class="welcome-icon">
+        ♫
+    </div>
+
+    <h1>
+        Tu biblioteca musical
+    </h1>
+
+    <p>
+        Carga una lista M3U desde tu dispositivo
+        o desde una URL.
+    </p>
+
+    <button
+        id="welcomeLoadButton"
+        class="primary-button">
+
+        ☁️ Abrir lista M3U
+
+    </button>
+
+</section>
+
+
+<section
+    class="library hidden"
+    id="library">
+
+    <div class="library-header">
+
+        <div>
+
+            <h1>
+                Tu música
+            </h1>
+
+            <p id="songCount">
+                0 canciones
+            </p>
+
+        </div>
+
+        <button
+            id="changeListButton"
+            class="secondary-button">
+
+            Cambiar lista
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="songsContainer"
+        class="songs-container">
+    </div>
+
+
+    <div
+        id="noResults"
+        class="no-results hidden">
+
+        <div>🔎</div>
+
+        <h2>
+            No encontramos nada
+        </h2>
+
+        <p>
+            Prueba con otro nombre,
+            artista o álbum.
+        </p>
+
+    </div>
+
+</section>
+</main> <!-- ========================= M3U MODAL ========================= --> <div id="m3uModal" class="modal hidden">
+<div class="modal-content">
+
+    <button
+        id="closeModalButton"
+        class="close-button">
+
+        ✕
+
+    </button>
+
+    <h2>
+        Abrir lista M3U
+    </h2>
+
+    <p class="modal-description">
+        Puedes cargar un archivo local
+        o introducir la URL de una lista.
+    </p>
+
+
+    <div class="modal-section">
+
+        <h3>
+            🌐 URL de M3U
+        </h3>
+
+        <input
+            type="url"
+            id="m3uUrl"
+            placeholder="https://raw.githubusercontent.com/usuario/repo/main/lista.m3u"
+        >
+
+        <button
+            id="loadUrlButton"
+            class="primary-button">
+
+            Cargar URL
+
+        </button>
+
+    </div>
+
+
+    <div class="divider">
+        <span>O</span>
+    </div>
+
+
+    <div class="modal-section">
+
+        <h3>
+            📂 Archivo local
+        </h3>
+
+        <button
+            id="loadFileButton"
+            class="secondary-button">
+
+            Seleccionar archivo M3U
+
+        </button>
+
+        <input
+            type="file"
+            id="m3uFile"
+            accept=".m3u,.m3u8,.txt"
+            hidden
+        >
+
+    </div>
+
+
+    <div
+        id="loadingMessage"
+        class="loading hidden">
+
+        ⏳ Cargando lista...
+
+    </div>
+
+
+    <div
+        id="errorMessage"
+        class="error hidden">
+    </div>
+
+</div>
+</div> <!-- ========================= PLAYER ========================= --> <footer class="player">
+<div class="now-playing">
+
+    <div
+        class="album-art"
+        id="albumArt">
+
+        ♫
+
+    </div>
+
+    <div class="track-info">
+
+        <div id="currentTitle">
+            Ninguna canción
+        </div>
+
+        <small id="currentArtist">
+            Selecciona una canción
+        </small>
+
+    </div>
+
+    <button
+        id="favoriteButton"
+        class="icon-button"
+        title="Favorito">
+
+        ♡
+
+    </button>
+
+</div>
+
+
+<div class="player-center">
+
+    <div class="controls">
+
+        <button
+            id="previousButton"
+            class="control-button">
+
+            ⏮
+
+        </button>
+
+        <button
+            id="playButton"
+            class="play-button">
+
+            ▶
+
+        </button>
+
+        <button
+            id="nextButton"
+            class="control-button">
+
+            ⏭
+
+        </button>
+
+    </div>
+
+
+    <div class="progress-container">
+
+        <span id="currentTime">
+            0:00
+        </span>
+
+        <input
+            type="range"
+            id="progress"
+            min="0"
+            max="100"
+            value="0"
+        >
+
+        <span id="duration">
+            0:00
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="volume-container">
+
+    <span>
+        🔊
+    </span>
+
+    <input
+        type="range"
+        id="volume"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.8"
+    >
+
+</div>
+</footer>
+<audio id="audio"></audio>
+
+<script src="app.js"></script> </body> </html>
