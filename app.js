@@ -598,22 +598,41 @@ function renderSongs() {
            main.className = "song-main";
 
 const cover = document.createElement("div");
+
 cover.className = "song-cover";
 
 if (song.logo) {
-    const img = document.createElement("img");
-    img.src = song.logo;
-    img.alt = song.title || "Portada";
-    img.loading = "lazy";
+
+    const img =
+    document.createElement("img");
+
+    img.src =
+    song.logo;
+
+    img.alt =
+    song.title || "Portada";
+
+    img.loading =
+    "lazy";
 
     img.onerror = () => {
+
         img.remove();
-        cover.textContent = "♫";
+
+        cover.textContent =
+        "♫";
+
     };
 
-    cover.appendChild(img);
+    cover.appendChild(
+        img
+    );
+
 } else {
-    cover.textContent = "♫";
+
+    cover.textContent =
+    "♫";
+
 }
 
 const info = document.createElement("div");
