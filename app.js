@@ -197,6 +197,9 @@ m3uFile.addEventListener(
  U *RL LOADING
  ========================= */
 
+const DEFAULT_M3U_URL =
+    "https://raw.githubusercontent.com/Valchrist23/VikTV/master/justdrive.m3u";
+
 loadUrlButton.addEventListener(
     "click",
     loadM3UFromURL
@@ -1221,3 +1224,68 @@ function showError(message) {
     );
 
 }
+
+/* =========================
+   AUTO LOAD M3U
+========================= */
+
+async function loadDefaultM3U() {
+
+    const savedUrl =
+        localStorage.getItem("lastM3UUrl");
+
+    const url =
+        savedUrl || DEFAULT_M3U_URL;
+
+    try {
+
+        showLoading();
+
+        const response =
+            await fetch(url);
+
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+
+        }
+
+        const text =
+            await response.text();
+
+        if (!text.trim()) {
+
+            throw new Error(
+                "La lista está vacía."
+            );
+
+        }
+
+        processM3U(text);
+
+        hideLoading();
+
+        localStorage.setItem(
+            "lastM3UUrl",
+            url
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando lista automáticamente:",
+            error
+        );
+
+        hideLoading();
+
+        welcome.classList.remove("hidden");
+        library.classList.add("hidden");
+
+    }
+
+}
+
+loadDefaultM3U();
