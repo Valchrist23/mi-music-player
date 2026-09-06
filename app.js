@@ -84,7 +84,7 @@ const volume =
 document.getElementById("volume");
 
 const favoriteButton =
-document.getElementById("favoriteButton");
+document.getElementById("favoriteButton"); 
 
 const allMusicButton =
 document.getElementById("allMusicButton");
