@@ -113,7 +113,6 @@ JSON.parse(
         "musicFavorites"
     ) || "[]"
 );
-let showingFavorites = false;
 
 /* =========================
  M *ODAL
