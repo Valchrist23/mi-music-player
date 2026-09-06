@@ -86,6 +86,15 @@ document.getElementById("volume");
 const favoriteButton =
 document.getElementById("favoriteButton");
 
+const allMusicButton =
+document.getElementById("allMusicButton");
+
+const favoritesListButton =
+document.getElementById("favoritesListButton");
+
+const libraryTitle =
+document.getElementById("libraryTitle");
+
 /* =========================
  S *TATE
  ========================= */
@@ -95,6 +104,8 @@ let songs = [];
 let filteredSongs = [];
 
 let currentIndex = -1;
+
+let showingFavorites = false;
 
 let favorites =
 JSON.parse(
@@ -545,12 +556,47 @@ function renderSongs() {
 
     songsContainer.innerHTML = "";
 
+    let songsToRender;
+
+    if (showingFavorites) {
+
+        songsToRender =
+        filteredSongs.filter(
+            song => isFavorite(song)
+        );
+
+    } else {
+
+        songsToRender =
+        filteredSongs;
+
+    }
+
     songCount.textContent =
-    `${filteredSongs.length} ${
-        filteredSongs.length === 1
+    `${songsToRender.length} ${
+        songsToRender.length === 1
         ? "canción"
         : "canciones"
     }`;
+
+    if (
+        songsToRender.length === 0
+    ) {
+
+        noResults.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+    noResults.classList.add(
+        "hidden"
+    );
+
+    songsToRender.forEach(
+        (song, index) => {
 
     if (
         filteredSongs.length === 0
@@ -568,7 +614,7 @@ function renderSongs() {
         "hidden"
     );
 
-    filteredSongs.forEach(
+    songsToRender.forEach(
         (song, index) => {
 
             const originalIndex =
@@ -1068,7 +1114,7 @@ function toggleFavorite(song) {
 
     }
 
-    localStorage.setItem(
+     localStorage.setItem(
         "musicFavorites",
         JSON.stringify(
             favorites
@@ -1076,6 +1122,8 @@ function toggleFavorite(song) {
     );
 
     updateFavoriteButton();
+
+    renderSongs();
 
 }
 
