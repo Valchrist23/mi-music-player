@@ -113,6 +113,7 @@ JSON.parse(
         "musicFavorites"
     ) || "[]"
 );
+let showingFavorites = false;
 
 /* =========================
  M *ODAL
@@ -560,17 +561,17 @@ function renderSongs() {
 
     if (showingFavorites) {
 
-        songsToRender =
-            filteredSongs.filter(
-                song => isFavorite(song)
-            );
+    songsToRender =
+        songs.filter(
+            song => isFavorite(song)
+        );
 
-    } else {
+} else {
 
-        songsToRender =
-            filteredSongs;
+    songsToRender =
+        filteredSongs;
 
-    }
+}
 
     songCount.textContent =
         `${songsToRender.length} ${
@@ -785,6 +786,54 @@ function renderSongs() {
     );
 
 }
+
+/* =========================
+   MUSIC / FAVORITES
+========================= */
+
+allMusicButton.addEventListener(
+    "click",
+    () => {
+
+        showingFavorites = false;
+
+        libraryTitle.textContent =
+            "Tu música";
+
+        allMusicButton.classList.add(
+            "active-tab"
+        );
+
+        favoritesListButton.classList.remove(
+            "active-tab"
+        );
+
+        renderSongs();
+
+    }
+);
+
+favoritesListButton.addEventListener(
+    "click",
+    () => {
+
+        showingFavorites = true;
+
+        libraryTitle.textContent =
+            "Mis favoritos";
+
+        favoritesListButton.classList.add(
+            "active-tab"
+        );
+
+        allMusicButton.classList.remove(
+            "active-tab"
+        );
+
+        renderSongs();
+
+    }
+);
 
 /* =========================
  P *LAY SONG
