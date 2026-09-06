@@ -561,23 +561,23 @@ function renderSongs() {
     if (showingFavorites) {
 
         songsToRender =
-        filteredSongs.filter(
-            song => isFavorite(song)
-        );
+            filteredSongs.filter(
+                song => isFavorite(song)
+            );
 
     } else {
 
         songsToRender =
-        filteredSongs;
+            filteredSongs;
 
     }
 
     songCount.textContent =
-    `${songsToRender.length} ${
-        songsToRender.length === 1
-        ? "canción"
-        : "canciones"
-    }`;
+        `${songsToRender.length} ${
+            songsToRender.length === 1
+            ? "canción"
+            : "canciones"
+        }`;
 
     if (
         songsToRender.length === 0
@@ -598,251 +598,193 @@ function renderSongs() {
     songsToRender.forEach(
         (song, index) => {
 
-    if (
-        filteredSongs.length === 0
-    ) {
-
-        noResults.classList.remove(
-            "hidden"
-        );
-
-        return;
-
-    }
-
-    noResults.classList.add(
-        "hidden"
-    );
-
-    songsToRender.forEach(
-        (song, index) => {
-
             const originalIndex =
-            songs.indexOf(song);
+                songs.indexOf(song);
 
             const row =
-            document.createElement(
-                "div"
-            );
+                document.createElement(
+                    "div"
+                );
 
             row.className =
-            "song";
+                "song";
 
-        const number =
-        document.createElement(
-            "div"
-        );
+            const number =
+                document.createElement(
+                    "div"
+                );
 
-        number.className =
-        "song-number";
+            number.className =
+                "song-number";
 
             number.textContent =
-            index + 1;
+                index + 1;
 
             const main =
-            document.createElement(
-                "div"
+                document.createElement(
+                    "div"
+                );
+
+            main.className =
+                "song-main";
+
+            const cover =
+                document.createElement(
+                    "div"
+                );
+
+            cover.className =
+                "song-cover";
+
+            if (song.logo) {
+
+                const img =
+                    document.createElement(
+                        "img"
+                    );
+
+                img.src =
+                    song.logo;
+
+                img.alt =
+                    song.title || "Portada";
+
+                img.loading =
+                    "lazy";
+
+                img.onerror = () => {
+
+                    img.remove();
+
+                    cover.textContent =
+                        "♫";
+
+                };
+
+                cover.appendChild(
+                    img
+                );
+
+            } else {
+
+                cover.textContent =
+                    "♫";
+
+            }
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+            title.className =
+                "song-title";
+
+            title.textContent =
+                song.title;
+
+            const artist =
+                document.createElement(
+                    "div"
+                );
+
+            artist.className =
+                "song-artist";
+
+            artist.textContent =
+                song.artist;
+
+            info.appendChild(
+                title
             );
 
-           main.className = "song-main";
+            info.appendChild(
+                artist
+            );
 
-const cover = document.createElement("div");
+            main.appendChild(
+                cover
+            );
 
-cover.className = "song-cover";
+            main.appendChild(
+                info
+            );
 
-if (song.logo) {
+            const type =
+                document.createElement(
+                    "div"
+                );
 
-    const img =
-    document.createElement("img");
+            type.className =
+                "song-type";
 
-    img.src =
-    song.logo;
+            type.textContent =
+                getFileType(
+                    song.url
+                );
 
-    img.alt =
-    song.title || "Portada";
+            const play =
+                document.createElement(
+                    "button"
+                );
 
-    img.loading =
-    "lazy";
+            play.className =
+                "song-play";
 
-    img.onerror = () => {
+            play.textContent =
+                "▶";
 
-        img.remove();
+            play.addEventListener(
+                "click",
+                () => {
 
-        cover.textContent =
-        "♫";
-
-    };
-
-    cover.appendChild(
-        img
-    );
-
-} else {
-
-    cover.textContent =
-    "♫";
-
-}
-
-const info = document.createElement("div");
-
-const title = document.createElement("div");
-
-title.className = "song-title";
-
-                    title.textContent =
-                    song.title;
-
-                    const artist =
-                    document.createElement(
-                        "div"
-                    );
-
-                    artist.className =
-                    "song-artist";
-
-                        artist.textContent =
-                        song.artist;
-
-                        info.appendChild(title);
-
-                        info.appendChild(artist);
-
-                        main.appendChild(cover);
-
-                        main.appendChild(info);
-
-                        const type =
-                        document.createElement(
-                            "div"
-                        );
-
-                        type.className =
-                        "song-type";
-
-                            type.textContent =
-                            getFileType(
-                                song.url
-                            );
-
-                            const play =
-                            document.createElement(
-                                "button"
-                            );
-
-                            play.className =
-                            "song-play";
-
-                        play.textContent =
-                        "▶";
-
-                    play.addEventListener(
-                        "click",
-                        () => {
-
-                            playSong(
-                                originalIndex
-                            );
-
-                        }
-                    );
-
-                    row.appendChild(number);
-
-                    row.appendChild(main);
-
-                    row.appendChild(type);
-
-                    row.appendChild(play);
-
-                    row.addEventListener(
-                        "dblclick",
-                        () => {
-
-                            playSong(
-                                originalIndex
-                            );
-
-                        }
-                    );
-
-                    songsContainer.appendChild(
-                        row
-                    );
-
-        }
-    );
-
-}
-
-/* =========================
- S *EARCH
- ========================= */
-
-searchInput.addEventListener(
-    "input",
-    () => {
-
-        const query =
-        searchInput.value
-        .toLowerCase()
-        .trim();
-
-        if (!query) {
-
-            filteredSongs =
-            [...songs];
-
-        } else {
-
-            filteredSongs =
-            songs.filter(
-                song => {
-
-                    return (
-
-                        song.title
-                        .toLowerCase()
-                        .includes(
-                            query
-                        )
-
-                        ||
-
-                        song.artist
-                        .toLowerCase()
-                        .includes(
-                            query
-                        )
-
-                        ||
-
-                        song.album
-                        .toLowerCase()
-                        .includes(
-                            query
-                        )
-
-                        ||
-
-                        song.url
-                        .toLowerCase()
-                        .includes(
-                            query
-                        )
-
+                    playSong(
+                        originalIndex
                     );
 
                 }
             );
 
+            row.appendChild(
+                number
+            );
+
+            row.appendChild(
+                main
+            );
+
+            row.appendChild(
+                type
+            );
+
+            row.appendChild(
+                play
+            );
+
+            row.addEventListener(
+                "dblclick",
+                () => {
+
+                    playSong(
+                        originalIndex
+                    );
+
+                }
+            );
+
+            songsContainer.appendChild(
+                row
+            );
+
         }
+    );
 
-        renderSongs();
-
-    }
-
-);
+}
 
 /* =========================
  P *LAY SONG
