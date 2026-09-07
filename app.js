@@ -870,7 +870,9 @@ function renderSongs() {
                 "song-number";
 
             number.textContent =
-                index + 1;
+    song.trackNumber
+    ? String(song.trackNumber).padStart(2, "0")
+    : index + 1;
 
             const main =
                 document.createElement(
