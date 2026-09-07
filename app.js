@@ -71,6 +71,9 @@ document.getElementById("currentTitle");
 const currentArtist =
 document.getElementById("currentArtist");
 
+const albumArt =
+document.getElementById("albumArt");
+
 const currentTime =
 document.getElementById("currentTime");
 
