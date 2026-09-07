@@ -87,7 +87,7 @@ const volume =
 document.getElementById("volume");
 
 const favoriteButton =
-document.getElementById("favoriteButton"); 
+document.getElementById("favoriteButton");
 
 const allMusicButton =
 document.getElementById("allMusicButton");
@@ -97,6 +97,33 @@ document.getElementById("favoritesListButton");
 
 const libraryTitle =
 document.getElementById("libraryTitle");
+
+/* =========================
+   CASSETTE CHANGE SOUND
+========================= */
+
+const cassetteSound =
+new Audio(
+    "https://archive.org/download/changetrack/changetrack.mp3"
+);
+
+cassetteSound.preload =
+"auto";
+
+/*
+ * Volumen independiente del reproductor.
+ * Puedes cambiarlo entre 0 y 1.
+ */
+cassetteSound.volume =
+0.8;
+
+/*
+ * Evita que dos cambios rápidos
+ * reproduzcan varios efectos a la vez.
+ */
+let cassettePlaying =
+false;
+
 
 /* =========================
  S *TATE
@@ -116,6 +143,7 @@ JSON.parse(
         "musicFavorites"
     ) || "[]"
 );
+
 
 /* =========================
  M *ODAL
@@ -156,6 +184,7 @@ closeModalButton.addEventListener(
     "click",
     closeModal
 );
+
 
 /* =========================
  F *ILE LOADING
@@ -206,6 +235,7 @@ m3uFile.addEventListener(
     }
 
 );
+
 
 /* =========================
  U *RL LOADING
@@ -295,11 +325,6 @@ async function loadM3UFromURL() {
 
         closeModal();
 
-        /*
-         *       Guardamos la última URL utilizada
-         *       para poder recuperarla fácilmente.
-         */
-
         localStorage.setItem(
             "lastM3UUrl",
             url
@@ -332,6 +357,7 @@ async function loadM3UFromURL() {
     }
 
 }
+
 
 /* =========================
  P *ROCESS M3U
@@ -369,6 +395,7 @@ function processM3U(text) {
 
 }
 
+
 /* =========================
  M *3U PARSER
  ========================= */
@@ -388,10 +415,6 @@ function parseM3U(text) {
 
         if (!line) continue;
 
-        /*
-         * #EXTINF:-1 tvg-logo="https://ejemplo.com/album.jpg",AC/DC - Back in Black
-         */
-
         if (line.startsWith("#EXTINF:")) {
 
             const comma =
@@ -408,7 +431,6 @@ function parseM3U(text) {
 
             }
 
-            // Obtener tvg-logo
             const logoMatch =
             line.match(
                 /tvg-logo=["']([^"']+)["']/i
@@ -425,10 +447,6 @@ function parseM3U(text) {
             metadata.logo = logo;
 
         }
-
-        /*
-         * URL de audio
-         */
 
         else if (
             !line.startsWith("#") &&
@@ -472,6 +490,7 @@ function parseM3U(text) {
 
 }
 
+
 /* =========================
  M *ETADATA PARSER
  ========================= */
@@ -481,10 +500,6 @@ function parseMetadata(info) {
     let artist = "";
 
     let title = info;
-
-    /*
-     *   Artist - Title
-     */
 
     const separator =
     info.indexOf(
@@ -520,6 +535,7 @@ function parseMetadata(info) {
 
 }
 
+
 /* =========================
  F *ILENAME
  ========================= */
@@ -551,6 +567,7 @@ function getFilename(url) {
 
 }
 
+
 /* =========================
  R *ENDER SONGS
  ========================= */
@@ -563,17 +580,17 @@ function renderSongs() {
 
     if (showingFavorites) {
 
-    songsToRender =
-        songs.filter(
-            song => isFavorite(song)
-        );
+        songsToRender =
+            songs.filter(
+                song => isFavorite(song)
+            );
 
-} else {
+    } else {
 
-    songsToRender =
-        filteredSongs;
+        songsToRender =
+            filteredSongs;
 
-}
+    }
 
     songCount.textContent =
         `${songsToRender.length} ${
@@ -789,9 +806,10 @@ function renderSongs() {
 
 }
 
+
 /* =========================
-   MUSIC / FAVORITES
-========================= */
+ M *USIC / FAVORITES
+ ========================= */
 
 allMusicButton.addEventListener(
     "click",
@@ -837,13 +855,104 @@ favoritesListButton.addEventListener(
     }
 );
 
+
 /* =========================
  P *LAY SONG
  ========================= */
 
-function playSong(index) {
+async function playSong(index) {
 
     if (!songs[index]) return;
+
+    /*
+     * Si estamos cambiando realmente de canción,
+     * reproducimos primero el sonido de cassette.
+     */
+    const changingSong =
+        currentIndex !== -1 &&
+        currentIndex !== index;
+
+    /*
+     * Detenemos la canción actual inmediatamente.
+     */
+    if (changingSong) {
+
+        audio.pause();
+
+        audio.currentTime = 0;
+
+    }
+
+    /*
+     * Reproducir sonido de cassette antes
+     * de cargar la nueva canción.
+     */
+    if (changingSong) {
+
+        try {
+
+            cassetteSound.pause();
+
+            cassetteSound.currentTime = 0;
+
+            cassettePlaying = true;
+
+            await new Promise(
+                resolve => {
+
+                    const finish =
+                    () => {
+
+                        cassetteSound.removeEventListener(
+                            "ended",
+                            finish
+                        );
+
+                        cassetteSound.removeEventListener(
+                            "error",
+                            finish
+                        );
+
+                        resolve();
+
+                    };
+
+                    cassetteSound.addEventListener(
+                        "ended",
+                        finish,
+                        { once: true }
+                    );
+
+                    cassetteSound.addEventListener(
+                        "error",
+                        finish,
+                        { once: true }
+                    );
+
+                    cassetteSound.play()
+                    .catch(() => {
+
+                        resolve();
+
+                    });
+
+                }
+            );
+
+            cassettePlaying = false;
+
+        } catch (error) {
+
+            console.warn(
+                "No se pudo reproducir el sonido de cassette:",
+                error
+            );
+
+            cassettePlaying = false;
+
+        }
+
+    }
 
     currentIndex =
         index;
@@ -859,6 +968,7 @@ function playSong(index) {
 
     currentArtist.textContent =
         song.artist;
+
 
     /* =========================
        ALBUM ART
@@ -918,6 +1028,7 @@ function playSong(index) {
 
 }
 
+
 playButton.addEventListener(
     "click",
     () => {
@@ -943,6 +1054,7 @@ playButton.addEventListener(
     }
 
 );
+
 
 /* =========================
  N *EXT / PREVIOUS
@@ -1014,10 +1126,10 @@ nextButton.addEventListener(
         }
 
         const currentSong =
-            songs[currentIndex];
+        songs[currentIndex];
 
         const position =
-            playlist.indexOf(currentSong);
+        playlist.indexOf(currentSong);
 
         if (
             position !== -1 &&
@@ -1034,6 +1146,7 @@ nextButton.addEventListener(
 
     }
 );
+
 
 audio.addEventListener(
     "ended",
@@ -1079,6 +1192,7 @@ audio.addEventListener(
 
     }
 );
+
 
 /* =========================
  P *ROGRESS
@@ -1155,6 +1269,7 @@ function formatTime(seconds) {
 
 }
 
+
 /* =========================
  V *OLUME
  ========================= */
@@ -1176,6 +1291,7 @@ volume.addEventListener(
     }
 
 );
+
 
 /* =========================
  F *AVORITES
@@ -1216,7 +1332,7 @@ function toggleFavorite(song) {
 
     }
 
-     localStorage.setItem(
+    localStorage.setItem(
         "musicFavorites",
         JSON.stringify(
             favorites
@@ -1239,7 +1355,7 @@ function updateFavoriteButton() {
         favoriteButton.textContent =
         "♡";
 
-    return;
+        return;
 
     }
 
@@ -1253,16 +1369,16 @@ function updateFavoriteButton() {
         favoriteButton.textContent =
         "♥";
 
-    favoriteButton.style.color =
-    "#1ed760";
+        favoriteButton.style.color =
+        "#1ed760";
 
     } else {
 
         favoriteButton.textContent =
         "♡";
 
-    favoriteButton.style.color =
-    "white";
+        favoriteButton.style.color =
+        "white";
 
     }
 
@@ -1277,13 +1393,14 @@ favoriteButton.addEventListener(
         )
             return;
 
-            toggleFavorite(
-                songs[currentIndex]
-            );
+        toggleFavorite(
+            songs[currentIndex]
+        );
 
     }
 
 );
+
 
 /* =========================
  F *ILE TYPE
@@ -1305,28 +1422,28 @@ function getFileType(url) {
         )
             return "MP3";
 
-            if (
-                pathname.endsWith(
-                    ".flac"
-                )
+        if (
+            pathname.endsWith(
+                ".flac"
             )
-                return "FLAC";
+        )
+            return "FLAC";
 
-                if (
-                    pathname.endsWith(
-                        ".ogg"
-                    )
-                )
-                    return "OGG";
+        if (
+            pathname.endsWith(
+                ".ogg"
+            )
+        )
+            return "OGG";
 
-                    if (
-                        pathname.endsWith(
-                            ".m4a"
-                        )
-                    )
-                        return "M4A";
+        if (
+            pathname.endsWith(
+                ".m4a"
+            )
+        )
+            return "M4A";
 
-                        return "Audio";
+        return "Audio";
 
     } catch {
 
@@ -1335,6 +1452,7 @@ function getFileType(url) {
     }
 
 }
+
 
 /* =========================
  U *I HELPERS
@@ -1375,9 +1493,10 @@ function showError(message) {
 
 }
 
+
 /* =========================
-   AUTO LOAD M3U
-========================= */
+ A *UTO LOAD M3U
+ ========================= */
 
 async function loadDefaultM3U() {
 
