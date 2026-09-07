@@ -107,23 +107,92 @@ new Audio(
     "https://archive.org/download/changetrack/changetrack.mp3"
 );
 
-cassetteSound.preload =
-"auto";
+cassetteSound.preload = "auto";
 
 /*
- * Volumen independiente del reproductor.
- * Puedes cambiarlo entre 0 y 1.
+ * Volumen del sonido de cassette.
  */
-cassetteSound.volume =
-0.8;
+cassetteSound.volume = 0.8;
 
 /*
- * Evita que dos cambios rápidos
- * reproduzcan varios efectos a la vez.
+ * Pre-cargamos el sonido.
  */
-let cassettePlaying =
-false;
+cassetteSound.load();
 
+/*
+ * Contador para evitar que un cambio
+ * anterior interfiera con uno nuevo.
+ */
+let changeRequest = 0;
+
+
+/*
+ * Reproduce el sonido de cassette
+ * y espera a que termine.
+ */
+function playCassetteSound() {
+
+    return new Promise(resolve => {
+
+        /*
+         * Reiniciamos el sonido desde el principio.
+         */
+        cassetteSound.pause();
+        cassetteSound.currentTime = 0;
+
+        let finished = false;
+
+        const finish = () => {
+
+            if (finished) return;
+
+            finished = true;
+
+            cassetteSound.removeEventListener(
+                "ended",
+                finish
+            );
+
+            cassetteSound.removeEventListener(
+                "error",
+                finish
+            );
+
+            resolve();
+
+        };
+
+        cassetteSound.addEventListener(
+            "ended",
+            finish
+        );
+
+        cassetteSound.addEventListener(
+            "error",
+            finish
+        );
+
+        const promise =
+            cassetteSound.play();
+
+        if (promise) {
+
+            promise.catch(error => {
+
+                console.warn(
+                    "No se pudo reproducir el sonido de cassette:",
+                    error
+                );
+
+                finish();
+
+            });
+
+        }
+
+    });
+
+}
 
 /* =========================
  S *TATE
@@ -865,15 +934,24 @@ async function playSong(index) {
     if (!songs[index]) return;
 
     /*
-     * Si estamos cambiando realmente de canción,
-     * reproducimos primero el sonido de cassette.
+     * Cada llamada recibe un número único.
+     * Si el usuario cambia rápidamente de canción,
+     * solamente el último cambio podrá continuar.
+     */
+    const request =
+        ++changeRequest;
+
+    /*
+     * Determinamos si realmente estamos
+     * cambiando desde una canción existente.
      */
     const changingSong =
         currentIndex !== -1 &&
         currentIndex !== index;
 
     /*
-     * Detenemos la canción actual inmediatamente.
+     * Si estamos cambiando de canción,
+     * detenemos inmediatamente la anterior.
      */
     if (changingSong) {
 
@@ -881,79 +959,31 @@ async function playSong(index) {
 
         audio.currentTime = 0;
 
-    }
+        /*
+         * IMPORTANTE:
+         * El índice todavía NO cambia.
+         * Primero hacemos el sonido.
+         */
+        await playCassetteSound();
 
-    /*
-     * Reproducir sonido de cassette antes
-     * de cargar la nueva canción.
-     */
-    if (changingSong) {
+        /*
+         * Si durante el sonido el usuario
+         * pidió otra canción, abandonamos
+         * este cambio.
+         */
+        if (
+            request !== changeRequest
+        ) {
 
-        try {
-
-            cassetteSound.pause();
-
-            cassetteSound.currentTime = 0;
-
-            cassettePlaying = true;
-
-            await new Promise(
-                resolve => {
-
-                    const finish =
-                    () => {
-
-                        cassetteSound.removeEventListener(
-                            "ended",
-                            finish
-                        );
-
-                        cassetteSound.removeEventListener(
-                            "error",
-                            finish
-                        );
-
-                        resolve();
-
-                    };
-
-                    cassetteSound.addEventListener(
-                        "ended",
-                        finish,
-                        { once: true }
-                    );
-
-                    cassetteSound.addEventListener(
-                        "error",
-                        finish,
-                        { once: true }
-                    );
-
-                    cassetteSound.play()
-                    .catch(() => {
-
-                        resolve();
-
-                    });
-
-                }
-            );
-
-            cassettePlaying = false;
-
-        } catch (error) {
-
-            console.warn(
-                "No se pudo reproducir el sonido de cassette:",
-                error
-            );
-
-            cassettePlaying = false;
+            return;
 
         }
 
     }
 
+    /*
+     * Ahora sí establecemos la nueva canción.
+     */
     currentIndex =
         index;
 
@@ -979,7 +1009,9 @@ async function playSong(index) {
         albumArt.innerHTML = "";
 
         const img =
-            document.createElement("img");
+            document.createElement(
+                "img"
+            );
 
         img.src =
             song.logo;
@@ -1005,8 +1037,13 @@ async function playSong(index) {
 
     }
 
+
     updateFavoriteButton();
 
+
+    /*
+     * Reproducimos la nueva canción.
+     */
     audio.play()
     .then(() => {
 
