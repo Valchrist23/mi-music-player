@@ -484,11 +484,10 @@ function parseM3U(text) {
 
         if (!line) continue;
 
-        /*
-         * =========================
-         * #EXTINF
-         * =========================
-         */
+
+        /* =========================
+           #EXTINF
+        ========================= */
 
         if (line.startsWith("#EXTINF:")) {
 
@@ -506,11 +505,10 @@ function parseM3U(text) {
 
             }
 
-            /*
-             * =========================
-             * EXTRAER TAGS M3U
-             * =========================
-             */
+
+            /* =========================
+               LEER TAGS M3U
+            ========================= */
 
             const tvgIdMatch =
                 line.match(
@@ -537,68 +535,153 @@ function parseM3U(text) {
                     /type=["']([^"']*)["']/i
                 );
 
+
+            /* =========================
+               OBTENER VALORES
+            ========================= */
+
+            const tvgId =
+                tvgIdMatch
+                ? tvgIdMatch[1].trim()
+                : "";
+
+            const tvgName =
+                tvgNameMatch
+                ? tvgNameMatch[1].trim()
+                : "";
+
+            const tvgLogo =
+                tvgLogoMatch
+                ? tvgLogoMatch[1].trim()
+                : "";
+
+            const groupTitle =
+                groupTitleMatch
+                ? groupTitleMatch[1].trim()
+                : "";
+
+            const type =
+                typeMatch
+                ? typeMatch[1].trim()
+                : "";
+
+
+            /* =========================
+               ARTISTA
+            ========================= */
+
+            let artist = "";
+
+            const separator =
+                info.indexOf(" - ");
+
+            if (separator !== -1) {
+
+                artist =
+                    info
+                    .substring(
+                        0,
+                        separator
+                    )
+                    .trim();
+
+            }
+
+
+            /* =========================
+               TRACK NUMBER
+            ========================= */
+
+            let trackNumber = "";
+
+
             /*
-             * =========================
-             * DATOS DE LA CANCIÓN
-             * =========================
+             * Primero:
+             *
+             * tvg-id="Track 01"
              */
 
-            const parsedInfo =
-                parseMetadata(info);
+            const trackMatch =
+                tvgId.match(
+                    /track[\s_-]*(\d+)/i
+                );
+
+            if (trackMatch) {
+
+                trackNumber =
+                    parseInt(
+                        trackMatch[1],
+                        10
+                    );
+
+            }
+
 
             /*
-             * Guardamos todos los datos
-             * encontrados en la línea M3U.
+             * Si no encontramos track
+             * en tvg-id, buscamos:
+             *
+             * S01E01
              */
+
+            if (!trackNumber) {
+
+                const episodeMatch =
+                    info.match(
+                        /S\d+E(\d+)/i
+                    );
+
+                if (episodeMatch) {
+
+                    trackNumber =
+                        parseInt(
+                            episodeMatch[1],
+                            10
+                        );
+
+                }
+
+            }
+
+
+            /* =========================
+               GUARDAR METADATA
+            ========================= */
 
             metadata = {
 
-                /*
-                 * Datos originales
-                 */
                 title:
-                    parsedInfo.title,
+                    tvgName,
 
                 artist:
-                    parsedInfo.artist,
-
-                /*
-                 * Tags M3U
-                 */
-                id:
-                    tvgIdMatch
-                    ? tvgIdMatch[1].trim()
-                    : "",
-
-                tvgName:
-                    tvgNameMatch
-                    ? tvgNameMatch[1].trim()
-                    : "",
+                    artist,
 
                 logo:
-                    tvgLogoMatch
-                    ? tvgLogoMatch[1].trim()
-                    : "",
+                    tvgLogo,
 
-                groupTitle:
-                    groupTitleMatch
-                    ? groupTitleMatch[1].trim()
-                    : "",
+                album:
+                    groupTitle,
+
+                id:
+                    tvgId,
 
                 type:
-                    typeMatch
-                    ? typeMatch[1].trim()
-                    : ""
+                    type,
+
+                trackNumber:
+                    trackNumber,
+
+                originalTitle:
+                    info
 
             };
 
         }
 
-        /*
-         * =========================
-         * URL DE AUDIO
-         * =========================
-         */
+
+        /* =========================
+           URL DE AUDIO
+        ========================= */
 
         else if (
             !line.startsWith("#") &&
@@ -611,106 +694,62 @@ function parseM3U(text) {
             const song =
                 metadata || {};
 
-            /*
-             * =========================
-             * TÍTULO
-             * =========================
-             *
-             * Si existe tvg-name,
-             * usamos ese nombre.
-             *
-             * Si no existe, usamos
-             * el título original.
-             */
+
+            /* =========================
+               TÍTULO
+            ========================= */
 
             const title =
-                song.tvgName ||
                 song.title ||
+                song.originalTitle ||
                 getFilename(line);
 
-            /*
-             * =========================
-             * ARTISTA
-             * =========================
-             *
-             * Actualmente tu M3U usa:
-             *
-             * F-Zero X - Staff Roll
-             *
-             * por lo que parseMetadata()
-             * seguirá obteniendo el artista.
-             */
 
-            const artist =
-                song.artist ||
-                "Artista desconocido";
+            /* =========================
+               CREAR CANCIÓN
+            ========================= */
 
             result.push({
 
-                /*
-                 * Información que usa
-                 * actualmente el reproductor.
-                 */
-
                 title:
-
                     title,
 
                 artist:
-
-                    artist,
+                    song.artist ||
+                    "Artista desconocido",
 
                 album:
-
-                    song.groupTitle ||
+                    song.album ||
                     "",
 
                 logo:
-
                     song.logo ||
                     "",
 
-                /*
-                 * Nuevos datos M3U
-                 */
-
                 id:
-
                     song.id ||
                     "",
 
                 tvgName:
-
-                    song.tvgName ||
-                    "",
-
-                groupTitle:
-
-                    song.groupTitle ||
+                    song.title ||
                     "",
 
                 type:
-
                     song.type ||
                     "",
 
-                /*
-                 * URL
-                 */
+                trackNumber:
+                    song.trackNumber ||
+                    "",
 
                 url:
-
                     line
 
             });
 
+
             /*
-             * IMPORTANTE:
-             *
-             * Una vez asociada la URL,
-             * borramos los metadata para
-             * que no se hereden a la
-             * siguiente canción.
+             * Limpiar metadata
              */
 
             metadata = null;
