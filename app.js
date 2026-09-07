@@ -914,58 +914,132 @@ previousButton.addEventListener(
     "click",
     () => {
 
-        if (currentIndex <= 0)
+        if (currentIndex === -1)
             return;
 
-        playSong(
-            currentIndex - 1
-        );
+        let playlist;
+
+        if (showingFavorites) {
+
+            playlist =
+                songs.filter(
+                    song => isFavorite(song)
+                );
+
+        } else {
+
+            playlist =
+                songs;
+
+        }
+
+        const currentSong =
+            songs[currentIndex];
+
+        const position =
+            playlist.indexOf(currentSong);
+
+        if (position > 0) {
+
+            playSong(
+                songs.indexOf(
+                    playlist[position - 1]
+                )
+            );
+
+        }
 
     }
-
 );
 
 nextButton.addEventListener(
     "click",
     () => {
 
-        if (
-            currentIndex === -1
-        )
+        if (currentIndex === -1)
             return;
 
-            if (
-                currentIndex <
-                songs.length - 1
-            ) {
+        let playlist;
 
-                playSong(
-                    currentIndex + 1
+        if (showingFavorites) {
+
+            playlist =
+                songs.filter(
+                    song => isFavorite(song)
                 );
 
-            }
+        } else {
+
+            playlist =
+                songs;
+
+        }
+
+        const currentSong =
+            songs[currentIndex];
+
+        const position =
+            playlist.indexOf(currentSong);
+
+        if (
+            position !== -1 &&
+            position < playlist.length - 1
+        ) {
+
+            playSong(
+                songs.indexOf(
+                    playlist[position + 1]
+                )
+            );
+
+        }
 
     }
-
 );
 
 audio.addEventListener(
     "ended",
     () => {
 
+        if (currentIndex === -1)
+            return;
+
+        let playlist;
+
+        if (showingFavorites) {
+
+            playlist =
+                songs.filter(
+                    song => isFavorite(song)
+                );
+
+        } else {
+
+            playlist =
+                songs;
+
+        }
+
+        const currentSong =
+            songs[currentIndex];
+
+        const position =
+            playlist.indexOf(currentSong);
+
         if (
-            currentIndex <
-            songs.length - 1
+            position !== -1 &&
+            position < playlist.length - 1
         ) {
 
             playSong(
-                currentIndex + 1
+                songs.indexOf(
+                    playlist[position + 1]
+                )
             );
 
         }
 
     }
-
 );
 
 /* =========================
