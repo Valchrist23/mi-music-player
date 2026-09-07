@@ -466,15 +466,15 @@ function processM3U(text) {
 
 
 /* =========================
- M *3U PARSER
- ========================= */
+   M3U PARSER
+========================= */
 
 function parseM3U(text) {
 
     const lines =
-    text
-    .split(/\r?\n/)
-    .map(line => line.trim());
+        text
+        .split(/\r?\n/)
+        .map(line => line.trim());
 
     const result = [];
 
@@ -484,38 +484,121 @@ function parseM3U(text) {
 
         if (!line) continue;
 
+        /*
+         * =========================
+         * #EXTINF
+         * =========================
+         */
+
         if (line.startsWith("#EXTINF:")) {
 
             const comma =
-            line.indexOf(",");
+                line.indexOf(",");
 
             let info = "";
 
             if (comma !== -1) {
 
                 info =
-                line
-                .substring(comma + 1)
-                .trim();
+                    line
+                    .substring(comma + 1)
+                    .trim();
 
             }
 
-            const logoMatch =
-            line.match(
-                /tvg-logo=["']([^"']+)["']/i
-            );
+            /*
+             * =========================
+             * EXTRAER TAGS M3U
+             * =========================
+             */
 
-            const logo =
-            logoMatch
-            ? logoMatch[1]
-            : "";
+            const tvgIdMatch =
+                line.match(
+                    /tvg-id=["']([^"']*)["']/i
+                );
 
-            metadata =
-            parseMetadata(info);
+            const tvgNameMatch =
+                line.match(
+                    /tvg-name=["']([^"']*)["']/i
+                );
 
-            metadata.logo = logo;
+            const tvgLogoMatch =
+                line.match(
+                    /tvg-logo=["']([^"']*)["']/i
+                );
+
+            const groupTitleMatch =
+                line.match(
+                    /group-title=["']([^"']*)["']/i
+                );
+
+            const typeMatch =
+                line.match(
+                    /type=["']([^"']*)["']/i
+                );
+
+            /*
+             * =========================
+             * DATOS DE LA CANCIÓN
+             * =========================
+             */
+
+            const parsedInfo =
+                parseMetadata(info);
+
+            /*
+             * Guardamos todos los datos
+             * encontrados en la línea M3U.
+             */
+
+            metadata = {
+
+                /*
+                 * Datos originales
+                 */
+                title:
+                    parsedInfo.title,
+
+                artist:
+                    parsedInfo.artist,
+
+                /*
+                 * Tags M3U
+                 */
+                id:
+                    tvgIdMatch
+                    ? tvgIdMatch[1].trim()
+                    : "",
+
+                tvgName:
+                    tvgNameMatch
+                    ? tvgNameMatch[1].trim()
+                    : "",
+
+                logo:
+                    tvgLogoMatch
+                    ? tvgLogoMatch[1].trim()
+                    : "",
+
+                groupTitle:
+                    groupTitleMatch
+                    ? groupTitleMatch[1].trim()
+                    : "",
+
+                type:
+                    typeMatch
+                    ? typeMatch[1].trim()
+                    : ""
+
+            };
 
         }
+
+        /*
+         * =========================
+         * URL DE AUDIO
+         * =========================
+         */
 
         else if (
             !line.startsWith("#") &&
@@ -526,28 +609,109 @@ function parseM3U(text) {
         ) {
 
             const song =
-            metadata || {};
+                metadata || {};
+
+            /*
+             * =========================
+             * TÍTULO
+             * =========================
+             *
+             * Si existe tvg-name,
+             * usamos ese nombre.
+             *
+             * Si no existe, usamos
+             * el título original.
+             */
+
+            const title =
+                song.tvgName ||
+                song.title ||
+                getFilename(line);
+
+            /*
+             * =========================
+             * ARTISTA
+             * =========================
+             *
+             * Actualmente tu M3U usa:
+             *
+             * F-Zero X - Staff Roll
+             *
+             * por lo que parseMetadata()
+             * seguirá obteniendo el artista.
+             */
+
+            const artist =
+                song.artist ||
+                "Artista desconocido";
 
             result.push({
 
+                /*
+                 * Información que usa
+                 * actualmente el reproductor.
+                 */
+
                 title:
-                song.title ||
-                getFilename(line),
+
+                    title,
 
                 artist:
-                song.artist ||
-                "Artista desconocido",
+
+                    artist,
 
                 album:
-                song.album || "",
+
+                    song.groupTitle ||
+                    "",
 
                 logo:
-                song.logo || "",
+
+                    song.logo ||
+                    "",
+
+                /*
+                 * Nuevos datos M3U
+                 */
+
+                id:
+
+                    song.id ||
+                    "",
+
+                tvgName:
+
+                    song.tvgName ||
+                    "",
+
+                groupTitle:
+
+                    song.groupTitle ||
+                    "",
+
+                type:
+
+                    song.type ||
+                    "",
+
+                /*
+                 * URL
+                 */
 
                 url:
-                line
+
+                    line
 
             });
+
+            /*
+             * IMPORTANTE:
+             *
+             * Una vez asociada la URL,
+             * borramos los metadata para
+             * que no se hereden a la
+             * siguiente canción.
+             */
 
             metadata = null;
 
@@ -558,7 +722,6 @@ function parseM3U(text) {
     return result;
 
 }
-
 
 /* =========================
  M *ETADATA PARSER
