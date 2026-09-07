@@ -846,19 +846,54 @@ function playSong(index) {
     if (!songs[index]) return;
 
     currentIndex =
-    index;
+        index;
 
     const song =
-    songs[index];
+        songs[index];
 
     audio.src =
-    song.url;
+        song.url;
 
     currentTitle.textContent =
-    song.title;
+        song.title;
 
     currentArtist.textContent =
-    song.artist;
+        song.artist;
+
+    /* =========================
+       ALBUM ART
+    ========================= */
+
+    if (song.logo) {
+
+        albumArt.innerHTML = "";
+
+        const img =
+            document.createElement("img");
+
+        img.src =
+            song.logo;
+
+        img.alt =
+            song.title || "Portada";
+
+        img.onerror = () => {
+
+            albumArt.innerHTML =
+                "♫";
+
+        };
+
+        albumArt.appendChild(
+            img
+        );
+
+    } else {
+
+        albumArt.innerHTML =
+            "♫";
+
+    }
 
     updateFavoriteButton();
 
@@ -866,7 +901,7 @@ function playSong(index) {
     .then(() => {
 
         playButton.textContent =
-        "⏸";
+            "⏸";
 
     })
     .catch(error => {
