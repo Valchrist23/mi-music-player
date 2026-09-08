@@ -931,29 +931,74 @@ button {
 
 }
 
-.control-button {
+..control-button {
 
-    background: transparent;
+    width: 38px;
+    height: 38px;
 
-    color: var(--text);
+    border-radius: 50%;
 
-    font-size: 20px;
+    background: var(--accent);
+
+    color: var(--button-text);
+
+    font-size: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.15s ease;
 
 }
 
 .play-button {
 
-    width: 38px;
-
-    height: 38px;
+    width: 44px;
+    height: 44px;
 
     border-radius: 50%;
 
-    background: white;
+    background: var(--accent);
 
-    color: black;
+    color: var(--button-text);
 
-    font-size: 16px;
+    font-size: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.15s ease;
+
+}
+
+/* EFECTO AL PASAR EL MOUSE */
+
+.control-button:hover,
+.play-button:hover {
+
+    transform: scale(1.08);
+
+}
+
+
+/* EFECTO AL PRESIONAR */
+
+.control-button:active,
+.play-button:active {
+
+    transform: scale(0.95);
 
 }
 
