@@ -1657,13 +1657,41 @@ body,
     align-items: center !important;
     justify-content: center !important;
 
-    font-size: 18px !important;
+    font-size: 0 !important;
 
     padding: 0 !important;
 
     cursor: pointer !important;
 
     box-sizing: border-box !important;
+
+}
+
+#previousButton::before {
+
+    content: "◀◀";
+
+    color: var(--button-text);
+
+    font-size: 14px;
+
+    letter-spacing: -4px;
+
+    line-height: 1;
+
+}
+
+#nextButton::before {
+
+    content: "▶▶";
+
+    color: var(--button-text);
+
+    font-size: 14px;
+
+    letter-spacing: -4px;
+
+    line-height: 1;
 
 }
 
