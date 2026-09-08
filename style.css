@@ -948,6 +948,8 @@ button {
     background: var(--accent);
     color: var(--button-text);
 
+    border: none;
+
     font-size: 18px;
 
     display: flex;
@@ -956,6 +958,8 @@ button {
     justify-content: center;
 
     cursor: pointer;
+
+    padding: 0;
 
     transition:
         background-color 0.25s ease,
@@ -964,6 +968,7 @@ button {
 
 }
 
+
 /* BOTÓN PLAY */
 
 .play-button {
@@ -971,10 +976,12 @@ button {
     width: 44px;
     height: 44px;
 
-    border-radius: 50%;
+    border-radius: 10px;
 
     background: var(--accent);
     color: var(--button-text);
+
+    border: none;
 
     font-size: 18px;
 
@@ -984,6 +991,8 @@ button {
     justify-content: center;
 
     cursor: pointer;
+
+    padding: 0;
 
     transition:
         background-color 0.25s ease,
