@@ -4,16 +4,336 @@
     padding: 0;
 }
 :root {
+
     --background: #121212;
     --surface: #181818;
     --surface-light: #242424;
     --surface-hover: #2a2a2a;
 
+    --topbar: #080808;
+
     --text: #ffffff;
     --text-secondary: #b3b3b3;
 
-    --green: #1ed760;
-    --red: #e91429;
+    --accent: #1ed760;
+    --accent-dark: #0b8f3c;
+
+    --button-text: #000000;
+
+    --border: #303030;
+
+    --input-background: #242424;
+
+    --modal-background: #202020;
+
+    --modal-input: #111111;
+
+    --favorite: #1ed760;
+
+}
+
+/* =========================
+   SPOTIFY
+========================= */
+
+[data-theme="spotify"] {
+
+    --background: #121212;
+    --surface: #181818;
+    --surface-light: #242424;
+    --surface-hover: #2a2a2a;
+
+    --topbar: #080808;
+
+    --text: #ffffff;
+    --text-secondary: #b3b3b3;
+
+    --accent: #1ed760;
+    --accent-dark: #0b8f3c;
+
+    --button-text: #000000;
+
+    --border: #303030;
+
+    --input-background: #242424;
+
+    --modal-background: #202020;
+
+    --modal-input: #111111;
+
+    --favorite: #1ed760;
+
+}
+
+
+/* =========================
+   PURPLE NIGHT
+========================= */
+
+[data-theme="purple"] {
+
+    --background: #0d0714;
+    --surface: #181020;
+    --surface-light: #241530;
+    --surface-hover: #30203d;
+
+    --topbar: #08050c;
+
+    --text: #ffffff;
+    --text-secondary: #c4b5fd;
+
+    --accent: #a855f7;
+    --accent-dark: #7e22ce;
+
+    --button-text: #ffffff;
+
+    --border: #3b2450;
+
+    --input-background: #181020;
+
+    --modal-background: #1b1025;
+
+    --modal-input: #0f0915;
+
+    --favorite: #c084fc;
+
+}
+
+
+/* =========================
+   OCEAN
+========================= */
+
+[data-theme="ocean"] {
+
+    --background: #07151c;
+    --surface: #0d2630;
+    --surface-light: #123844;
+    --surface-hover: #164653;
+
+    --topbar: #041016;
+
+    --text: #ffffff;
+    --text-secondary: #a5f3fc;
+
+    --accent: #06b6d4;
+    --accent-dark: #0e7490;
+
+    --button-text: #001014;
+
+    --border: #164e63;
+
+    --input-background: #0d2630;
+
+    --modal-background: #0c2029;
+
+    --modal-input: #061319;
+
+    --favorite: #22d3ee;
+
+}
+
+
+/* =========================
+   CRIMSON
+========================= */
+
+[data-theme="crimson"] {
+
+    --background: #120707;
+    --surface: #1f0d0d;
+    --surface-light: #321212;
+    --surface-hover: #421818;
+
+    --topbar: #090404;
+
+    --text: #ffffff;
+    --text-secondary: #fecaca;
+
+    --accent: #ef4444;
+    --accent-dark: #b91c1c;
+
+    --button-text: #ffffff;
+
+    --border: #4c1d1d;
+
+    --input-background: #1f0d0d;
+
+    --modal-background: #251010;
+
+    --modal-input: #100505;
+
+    --favorite: #f87171;
+
+}
+
+
+/* =========================
+   SUNSET
+========================= */
+
+[data-theme="sunset"] {
+
+    --background: #140b05;
+    --surface: #211209;
+    --surface-light: #351b0c;
+    --surface-hover: #47230d;
+
+    --topbar: #0b0603;
+
+    --text: #ffffff;
+    --text-secondary: #fed7aa;
+
+    --accent: #f97316;
+    --accent-dark: #c2410c;
+
+    --button-text: #ffffff;
+
+    --border: #542b0f;
+
+    --input-background: #211209;
+
+    --modal-background: #281309;
+
+    --modal-input: #0e0703;
+
+    --favorite: #fb923c;
+
+}
+
+
+/* =========================
+   GOLDEN
+========================= */
+
+[data-theme="golden"] {
+
+    --background: #11100a;
+    --surface: #201e12;
+    --surface-light: #302d18;
+    --surface-hover: #403c1d;
+
+    --topbar: #090904;
+
+    --text: #ffffff;
+    --text-secondary: #fef08a;
+
+    --accent: #facc15;
+    --accent-dark: #a16207;
+
+    --button-text: #171305;
+
+    --border: #4a4517;
+
+    --input-background: #201e12;
+
+    --modal-background: #292612;
+
+    --modal-input: #0d0c06;
+
+    --favorite: #fde047;
+
+}
+
+
+/* =========================
+   PINK BLOSSOM
+========================= */
+
+[data-theme="pink"] {
+
+    --background: #160b12;
+    --surface: #24121b;
+    --surface-light: #351a27;
+    --surface-hover: #472033;
+
+    --topbar: #0b0508;
+
+    --text: #ffffff;
+    --text-secondary: #ffc4dc;
+
+    --accent: #ff6fae;
+    --accent-dark: #db3f82;
+
+    --button-text: #ffffff;
+
+    --border: #55243a;
+
+    --input-background: #24121b;
+
+    --modal-background: #2b1420;
+
+    --modal-input: #10070c;
+
+    --favorite: #ff8fbd;
+
+}
+
+
+/* =========================
+   LIGHT
+========================= */
+
+[data-theme="light"] {
+
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --surface-light: #eeeeee;
+    --surface-hover: #e5e5e5;
+
+    --topbar: #ffffff;
+
+    --text: #111111;
+    --text-secondary: #666666;
+
+    --accent: #16a34a;
+    --accent-dark: #15803d;
+
+    --button-text: #ffffff;
+
+    --border: #d4d4d4;
+
+    --input-background: #eeeeee;
+
+    --modal-background: #ffffff;
+
+    --modal-input: #f3f3f3;
+
+    --favorite: #16a34a;
+
+}
+
+
+/* =========================
+   DARKNESS
+========================= */
+
+[data-theme="darkness"] {
+
+    --background: #000000;
+    --surface: #080808;
+    --surface-light: #101010;
+    --surface-hover: #181818;
+
+    --topbar: #000000;
+
+    --text: #ffffff;
+    --text-secondary: #888888;
+
+    --accent: #ffffff;
+    --accent-dark: #aaaaaa;
+
+    --button-text: #000000;
+
+    --border: #1c1c1c;
+
+    --input-background: #080808;
+
+    --modal-background: #080808;
+
+    --modal-input: #000000;
+
+    --favorite: #ffffff;
 
 }
 
@@ -37,7 +357,7 @@ body {
 
     height: 72px;
 
-    background: #080808;
+    background: var(--topbar);
 
     display: flex;
 
@@ -71,7 +391,7 @@ body {
 
 .logo span {
 
-    color: var(--green);
+    color: var(--accent);
 
     font-size: 30px;
 
@@ -89,7 +409,7 @@ body {
 
     width: 100%;
 
-    background: #242424;
+    background: var(--input-background);
 
     border: none;
 
@@ -97,7 +417,7 @@ body {
 
     padding: 13px 20px;
 
-    color: white;
+    color: var(--text);
 
     font-size: 15px;
 
@@ -108,7 +428,7 @@ body {
 .search-container input:focus {
 
     box-shadow:
-    0 0 0 2px white;
+    0 0 0 2px var(--accent);
 
 }
 
@@ -126,9 +446,8 @@ button {
 
 .load-button {
 
-    background: var(--green);
-
-    color: black;
+    background: var(--accent);
+    color: var(--button-text);
 
     font-weight: bold;
 
@@ -140,9 +459,8 @@ button {
 
 .primary-button {
 
-    background: var(--green);
-
-    color: black;
+    background: var(--accent);
+    color: var(--button-text);
 
     font-weight: bold;
 
@@ -158,9 +476,9 @@ button {
 
 .secondary-button {
 
-    background: #303030;
+    background: var(--surface-light);
 
-    color: white;
+    color: var(--text);
 
     padding: 11px 18px;
 
@@ -210,10 +528,23 @@ button {
     background:
     linear-gradient(
         135deg,
-        #1ed760,
-        #0b8f3c
+        var(--accent),
+        var(--accent-dark)
     );
 
+    color: black;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 55px;
+
+    margin-bottom: 25px;
+
+}
     color: black;
 
     display: flex;
@@ -293,9 +624,9 @@ button {
 
 .active-tab {
 
-    background: var(--green);
+    background: var(--accent);
 
-    color: black;
+    color: var(--button-text);
 
 }
 
@@ -387,8 +718,8 @@ button {
     overflow: hidden;
     border-radius: 6px;
 
-    background: #282828;
-    color: #aaa;
+    background: var(--surface-light);
+    color: var(--text-secondary);
 }
 
 .song-cover img {
@@ -440,7 +771,7 @@ button {
 
     background: transparent;
 
-    color: var(--green);
+    color: var(--accent);
 
     font-size: 20px;
 
@@ -462,10 +793,10 @@ button {
 
     height: 90px;
 
-    background: #181818;
+    background: var(--surface);
 
     border-top:
-    1px solid #303030;
+    1px solid var(--border);
 
     display: grid;
 
@@ -516,8 +847,8 @@ button {
     background:
     linear-gradient(
         135deg,
-        #333,
-        #111
+        var(--surface-light),
+        var(--background)
     );
 
     display: flex;
@@ -581,7 +912,7 @@ button {
 
     background: transparent;
 
-    color: white;
+    color: var(--text);
 
     font-size: 25px;
 
@@ -617,7 +948,7 @@ button {
 
     background: transparent;
 
-    color: white;
+    color: var(--text);
 
     font-size: 20px;
 
@@ -706,7 +1037,7 @@ button {
     width: min(600px, 92%);
 
     background:
-    #202020;
+    var(--modal-background);
 
     border-radius: 12px;
 
@@ -771,15 +1102,15 @@ button {
 
     width: 100%;
 
-    background: #111;
+    background: var(--modal-input);
 
-    border: 1px solid #444;
+    border: 1px solid var(--border);
 
     border-radius: 6px;
 
     padding: 13px;
 
-    color: white;
+    color: var(--text);
 
     outline: none;
 
@@ -788,7 +1119,7 @@ button {
 .modal-section input:focus {
 
     border-color:
-    var(--green);
+    var(--accent);
 
 }
 
@@ -825,7 +1156,7 @@ button {
     margin-top: 20px;
 
     color:
-    var(--green);
+    color: var(--accent);
 
 }
 
@@ -996,6 +1327,249 @@ button {
     .volume-container {
 
         display: none;
+    }
+
+}
+
+/* =========================
+   THEME SELECTOR
+========================= */
+
+.theme-selector {
+
+    position: relative;
+
+    flex-shrink: 0;
+
+}
+
+
+.theme-button {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--surface-light);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    border-radius: 50%;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.theme-button:hover {
+
+    background: var(--surface-hover);
+
+    transform: scale(1.05);
+
+}
+
+
+.theme-menu {
+
+    position: absolute;
+
+    top: 50px;
+
+    right: 0;
+
+    width: 200px;
+
+    padding: 8px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.45);
+
+    z-index: 1000;
+
+}
+
+
+.theme-title {
+
+    padding: 8px 10px 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+.theme-option {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px 10px;
+
+    background: transparent;
+
+    color: var(--text);
+
+    border-radius: 7px;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease;
+
+}
+
+
+.theme-option:hover {
+
+    background: var(--surface-hover);
+
+}
+
+
+.theme-color {
+
+    width: 14px;
+
+    height: 14px;
+
+    min-width: 14px;
+
+    border-radius: 50%;
+
+}
+
+
+/* =========================
+   THEME COLORS
+========================= */
+
+.spotify-color {
+    background: #1ed760;
+}
+
+.purple-color {
+    background: #a855f7;
+}
+
+.ocean-color {
+    background: #06b6d4;
+}
+
+.crimson-color {
+    background: #ef4444;
+}
+
+.sunset-color {
+    background: #f97316;
+}
+
+.golden-color {
+    background: #facc15;
+}
+
+.pink-color {
+    background: #ff6fae;
+}
+
+.light-color {
+
+    background: #f5f5f5;
+
+    border: 1px solid #aaa;
+
+}
+
+.darkness-color {
+
+    background: #000000;
+
+    border: 1px solid #555;
+
+}
+
+
+/* =========================
+   THEME TRANSITIONS
+========================= */
+
+body,
+.topbar,
+.search-container input,
+.song,
+.song-cover,
+.player,
+.modal-content,
+.modal-section input,
+.secondary-button,
+.theme-button,
+.theme-menu {
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+
+}
+
+
+/* =========================
+   MOBILE THEME BUTTON
+========================= */
+
+@media (max-width: 700px) {
+
+    .theme-button {
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+    .theme-menu {
+
+        right: 0;
+
+        width: 190px;
+
     }
 
 }
