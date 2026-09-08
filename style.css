@@ -1630,3 +1630,51 @@ body,
     }
 
 }
+
+#previousButton,
+#nextButton {
+
+    width: 38px !important;
+    height: 38px !important;
+
+    border-radius: 10px !important;
+
+    background: var(--accent) !important;
+    color: var(--button-text) !important;
+
+    border: none !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 18px !important;
+
+    padding: 0 !important;
+
+    cursor: pointer !important;
+
+    box-sizing: border-box !important;
+
+}
+
+#previousButton:hover,
+#nextButton:hover {
+
+    background: var(--accent-dark) !important;
+
+    transform: scale(1.08);
+
+}
+
+#previousButton:active,
+#nextButton:active {
+
+    transform: scale(0.95);
+
+}
+
+
+
+
+
