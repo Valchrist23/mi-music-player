@@ -1333,21 +1333,19 @@ button {
 
 .theme-button {
 
-    width: 42px;
-
-    height: 42px;
+    width: 38px;
+    height: 38px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: var(--surface-light);
 
     color: var(--text);
 
-    border: 1px solid var(--border);
+    border: none;
 
     border-radius: 50%;
 
@@ -1356,17 +1354,32 @@ button {
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease,
         transform 0.2s ease;
 
 }
 
-
 .theme-button:hover {
 
-    background: var(--surface-hover);
+    background: var(--accent);
+
+    color: var(--button-text);
 
     transform: scale(1.05);
+
+}
+
+.hamburger-icon {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    line-height: 1;
+
+    font-size: 20px;
 
 }
 
