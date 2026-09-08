@@ -1799,3 +1799,126 @@ async function loadDefaultM3U() {
 }
 
 loadDefaultM3U();
+
+/* =========================
+   THEME SYSTEM
+========================= */
+
+const themeButton =
+    document.getElementById(
+        "themeButton"
+    );
+
+const themeMenu =
+    document.getElementById(
+        "themeMenu"
+    );
+
+const themeOptions =
+    document.querySelectorAll(
+        ".theme-option"
+    );
+
+
+/* =========================
+   CAMBIAR THEME
+========================= */
+
+function setTheme(theme) {
+
+    document.documentElement
+        .setAttribute(
+            "data-theme",
+            theme
+        );
+
+    localStorage.setItem(
+        "musicTheme",
+        theme
+    );
+
+}
+
+
+/* =========================
+   CARGAR THEME GUARDADO
+========================= */
+
+const savedTheme =
+    localStorage.getItem(
+        "musicTheme"
+    );
+
+
+setTheme(
+    savedTheme || "spotify"
+);
+
+
+/* =========================
+   ABRIR / CERRAR MENÚ
+========================= */
+
+themeButton.addEventListener(
+    "click",
+    event => {
+
+        event.stopPropagation();
+
+        themeMenu.classList.toggle(
+            "hidden"
+        );
+
+    }
+);
+
+
+/* =========================
+   SELECCIONAR THEME
+========================= */
+
+themeOptions.forEach(
+    option => {
+
+        option.addEventListener(
+            "click",
+            () => {
+
+                const theme =
+                    option.dataset.theme;
+
+                setTheme(theme);
+
+                themeMenu.classList.add(
+                    "hidden"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   CERRAR AL HACER CLICK
+   FUERA DEL MENÚ
+========================= */
+
+document.addEventListener(
+    "click",
+    event => {
+
+        if (
+            !themeMenu.contains(event.target) &&
+            !themeButton.contains(event.target)
+        ) {
+
+            themeMenu.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+);
