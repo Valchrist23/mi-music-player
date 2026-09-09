@@ -1281,7 +1281,7 @@ playButton.addEventListener(
             audio.play();
 
             playButton.textContent =
-            "⏸";
+            "Ⅱ";
 
         } else {
 
