@@ -665,10 +665,41 @@ button {
 
 }
 
-.song:hover {
+/* =========================
+   CURRENT SONG
+========================= */
+
+.song.playing {
 
     background:
-    var(--surface-hover);
+        color-mix(
+            in srgb,
+            var(--accent) 12%,
+            var(--surface)
+        );
+
+    border-left:
+        3px solid var(--accent);
+
+}
+
+.song.playing .song-number {
+
+    color:
+        var(--accent);
+
+    font-weight:
+        bold;
+
+}
+
+.song.playing .song-title {
+
+    color:
+        var(--accent);
+
+    font-weight:
+        600;
 
 }
 
