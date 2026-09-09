@@ -1245,14 +1245,13 @@ async function playSong(index) {
     updateFavoriteButton();
 
 
-    /*
-     * Reproducimos la nueva canción.
-     */
-    audio.play()
+ /**
+ * Reproducimos la nueva canción.
+ */
+audio.play()
     .then(() => {
 
-        playButton.textContent =
-    "Ⅱ";
+        playButton.textContent = "Ⅱ";
 
     })
     .catch(error => {
@@ -1280,22 +1279,19 @@ playButton.addEventListener(
 
             audio.play();
 
-            playButton.textContent =
-            "Ⅱ";
+            playButton.textContent = "Ⅱ";
 
         } else {
 
             audio.pause();
 
-            playButton.textContent =
-            "▶";
+            playButton.textContent = "▶";
 
         }
 
     }
 
 );
-
 
 /* =========================
  N *EXT / PREVIOUS
