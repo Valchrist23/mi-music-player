@@ -893,12 +893,17 @@ function renderSongs() {
                 songs.indexOf(song);
 
             const row =
-                document.createElement(
-                    "div"
-                );
+    document.createElement(
+        "div"
+    );
 
-            row.className =
-                "song";
+const isCurrentSong =
+    originalIndex === currentIndex;
+
+row.className =
+    isCurrentSong
+        ? "song playing"
+        : "song";
 
             const number =
                 document.createElement(
@@ -1189,10 +1194,12 @@ async function playSong(index) {
      * Ahora sí establecemos la nueva canción.
      */
     currentIndex =
-        index;
+    index;
 
-    const song =
-        songs[index];
+const song =
+    songs[index];
+
+renderSongs();
 
     audio.src =
         song.url;
