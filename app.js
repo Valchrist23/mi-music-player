@@ -1252,7 +1252,7 @@ async function playSong(index) {
     .then(() => {
 
         playButton.textContent =
-            "⏸";
+    "Ⅱ";
 
     })
     .catch(error => {
