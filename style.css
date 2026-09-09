@@ -665,6 +665,14 @@ button {
 
 }
 
+.song:hover {
+
+    background:
+    var(--surface-hover);
+
+}
+
+
 /* =========================
    CURRENT SONG
 ========================= */
@@ -702,6 +710,7 @@ button {
         600;
 
 }
+
 
 .song-number {
 
