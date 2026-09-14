@@ -65,6 +65,9 @@ document.getElementById("previousButton");
 const nextButton =
 document.getElementById("nextButton");
 
+const stopButton =
+document.getElementById("stopButton");
+
 const currentTitle =
 document.getElementById("currentTitle");
 
@@ -1298,6 +1301,31 @@ playButton.addEventListener(
 
     }
 
+);
+
+/* =========================
+   STOP BUTTON
+========================= */
+
+stopButton.addEventListener(
+    "click",
+    () => {
+
+        if (!audio.src)
+            return;
+
+        audio.pause();
+
+        audio.currentTime = 0;
+
+        playButton.textContent = "▶";
+
+        progress.value = 0;
+
+        currentTime.textContent =
+            "0:00";
+
+    }
 );
 
 /* =========================
