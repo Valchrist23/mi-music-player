@@ -1413,52 +1413,50 @@ button {
 
 
 .player {
+    height: 115px;
+    max-height: 115px;
 
-    height: 80px;
+    display: grid;
+    grid-template-columns: 1fr;
 
-    max-height: 80px;
+    padding: 8px 12px;
 
-    grid-template-columns:
-    1fr auto;
-
-    padding:
-    8px 12px;
-
-    overflow: hidden;
-
+    overflow: visible;
 }
 
 .player-center {
-
-    position: absolute;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 2px;
+    position: static;
 
     width: 100%;
+    max-width: none;
 
-    height: 20px;
+    height: auto;
 
-    padding:
-    0 15px;
-
+    padding: 0;
 }
 
 .controls {
+    display: flex;
 
-    display: none;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 5px;
 }
 
 .progress-container {
+    display: flex;
 
     width: 100%;
+
+    align-items: center;
+
+    gap: 8px;
 }
 
 .volume-container {
-
     display: none;
 }
 
