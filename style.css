@@ -1412,7 +1412,7 @@ button {
     }
 
 
-    .player {
+.player {
 
     height: 80px;
 
@@ -1428,8 +1428,7 @@ button {
 
 }
 
-
-   .player-center {
+.player-center {
 
     position: absolute;
 
@@ -1448,24 +1447,19 @@ button {
 
 }
 
+.controls {
 
-    .controls {
+    display: none;
+}
 
-        display: none;
-    }
+.progress-container {
 
+    width: 100%;
+}
 
-    .progress-container {
+.volume-container {
 
-        width: 100%;
-    }
-
-
-    .volume-container {
-
-        display: none;
-    }
-
+    display: none;
 }
 
 /* =========================
