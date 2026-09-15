@@ -440,8 +440,14 @@ button {
 
     border: none;
 
+    outline: none;
+
     cursor: pointer;
 
+}
+
+button:focus {
+    outline: none;
 }
 
 .load-button {
@@ -1459,6 +1465,7 @@ button {
 .volume-container {
     display: none;
 }
+]
 
 /* =========================
    THEME SELECTOR
