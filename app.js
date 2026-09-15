@@ -1311,19 +1311,73 @@ stopButton.addEventListener(
     "click",
     () => {
 
-        if (!audio.src)
-            return;
+        /*
+         * Invalidamos cualquier cambio
+         * de canción que esté esperando.
+         */
+        changeRequest++;
 
+        /*
+         * Detener completamente el audio.
+         */
         audio.pause();
 
+        /*
+         * Reiniciar posición.
+         */
         audio.currentTime = 0;
 
+        /*
+         * Limpiar la fuente.
+         */
+        audio.removeAttribute("src");
+
+        /*
+         * Recargar el elemento audio para
+         * liberar completamente el stream.
+         */
+        audio.load();
+
+        /*
+         * Estado del reproductor.
+         */
+        currentIndex = -1;
+
+        /*
+         * Actualizar controles.
+         */
         playButton.textContent = "▶";
 
         progress.value = 0;
 
-        currentTime.textContent =
-            "0:00";
+        currentTime.textContent = "0:00";
+
+        duration.textContent = "0:00";
+
+        /*
+         * Restaurar información visual.
+         */
+        currentTitle.textContent =
+            "Ninguna canción";
+
+        currentArtist.textContent =
+            "Selecciona una canción";
+
+        /*
+         * Restaurar portada.
+         */
+        albumArt.innerHTML = "♫";
+
+        /*
+         * Actualizar favorito.
+         */
+        updateFavoriteButton();
+
+        /*
+         * Quitar el estado "playing"
+         * de la lista.
+         */
+        renderSongs();
 
     }
 );
