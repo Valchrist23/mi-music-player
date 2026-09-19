@@ -430,6 +430,62 @@ async function loadM3UFromURL() {
 
 }
 
+/* =========================
+   SEARCH
+========================= */
+
+searchInput.addEventListener(
+    "input",
+    () => {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        if (!query) {
+
+            filteredSongs = [...songs];
+
+        } else {
+
+            filteredSongs =
+                songs.filter(song => {
+
+                    return (
+                        song.title
+                            .toLowerCase()
+                            .includes(query) ||
+
+                        song.artist
+                            .toLowerCase()
+                            .includes(query) ||
+
+                        song.album
+                            .toLowerCase()
+                            .includes(query) ||
+
+                        song.id
+                            .toLowerCase()
+                            .includes(query) ||
+
+                        song.tvgName
+                            .toLowerCase()
+                            .includes(query) ||
+
+                        song.type
+                            .toLowerCase()
+                            .includes(query)
+                    );
+
+                });
+
+        }
+
+        renderSongs();
+
+    }
+);
 
 /* =========================
  P *ROCESS M3U
